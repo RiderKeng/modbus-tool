@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Modbus Tool | Paul IoT Lab</title>
+<title>Modbus RTU Tool | Paul IoT Lab</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -48,48 +48,28 @@ header p {
   margin-bottom: 16px;
 }
 
-h2, h3 { margin-top: 0; }
+h2, h3 {
+  margin-top: 0;
+}
 
-.tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+.tool-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 16px;
-}
-
-.tab {
-  padding: 13px;
-  border: 1px solid #3b4b6b;
-  border-radius: 10px;
-  background: #1e293b;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.tab.active {
-  background: #2563eb;
-  border-color: #2563eb;
 }
 
 .badge {
   display: inline-block;
-  margin-left: 7px;
-  padding: 3px 8px;
+  padding: 4px 9px;
   border-radius: 999px;
-  font-size: .65rem;
-  background: #374151;
-  color: #d1d5db;
+  font-size: .68rem;
+  font-weight: bold;
 }
 
-.badge.ready {
+.badge.verified {
   background: #14532d;
   color: #86efac;
-}
-
-.badge.experimental {
-  background: #78350f;
-  color: #fde68a;
 }
 
 .grid2 {
@@ -100,7 +80,7 @@ h2, h3 { margin-top: 0; }
 
 .grid3 {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
 
@@ -111,7 +91,9 @@ label {
   font-size: .82rem;
 }
 
-input, select, button {
+input,
+select,
+button {
   width: 100%;
   padding: 11px;
   border-radius: 9px;
@@ -133,11 +115,6 @@ button {
 
 .secondary {
   background: #334155;
-}
-
-.danger {
-  background: #991b1b;
-  border-color: #991b1b;
 }
 
 .actions {
@@ -164,6 +141,27 @@ button {
   background: #991b1b;
 }
 
+.small {
+  color: #94a3b8;
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+.note {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  font-size: .8rem;
+  line-height: 1.55;
+}
+
+.note strong {
+  color: #93c5fd;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -171,7 +169,8 @@ table {
   font-size: .85rem;
 }
 
-th, td {
+th,
+td {
   border-bottom: 1px solid #334155;
   padding: 9px 7px;
   text-align: left;
@@ -183,12 +182,6 @@ th {
 
 .code {
   font-family: monospace;
-}
-
-.small {
-  color: #94a3b8;
-  font-size: .78rem;
-  line-height: 1.5;
 }
 
 .hidden {
@@ -217,19 +210,20 @@ th {
   padding: 12px;
   margin-top: 10px;
   font-family: monospace;
+  white-space: pre-wrap;
 }
 
-.warning {
-  background: #422006;
-  border: 1px solid #92400e;
-  color: #fde68a;
-  border-radius: 10px;
-  padding: 12px;
-  line-height: 1.5;
+.footer {
+  text-align: center;
+  margin-top: 28px;
+  color: #64748b;
+  font-size: .78rem;
 }
 
 @media (max-width: 700px) {
-  .grid2, .grid3, .actions {
+  .grid2,
+  .grid3,
+  .actions {
     grid-template-columns: 1fr;
   }
 
@@ -243,27 +237,27 @@ th {
 <body>
 
 <header>
-  <h1>🔌 Modbus Tool</h1>
-  <p>Paul IoT Lab · RTU / TCP Testing & Engineering Utility</p>
+  <h1>🔌 Modbus RTU Tool</h1>
+  <p>Paul IoT Lab · USB-RS485 Testing & Engineering Utility</p>
 </header>
 
 <div class="container">
 
-<div class="tabs">
-  <button id="rtuTab" class="tab active" onclick="showTab('rtu')">
-    Modbus RTU
-    <span class="badge ready">READY</span>
-  </button>
+<div class="card">
 
-  <button id="tcpTab" class="tab" onclick="showTab('tcp')">
-    Modbus TCP
-    <span class="badge experimental">EXPERIMENTAL</span>
-  </button>
+  <div class="tool-title">
+    <h3 style="margin:0;">Modbus RTU</h3>
+    <span class="badge verified">PC VERIFIED</span>
+  </div>
+
+  <div class="note">
+    <strong>Recommended:</strong> Chrome / Edge desktop<br>
+    Tested with USB-RS485 on PC.<br>
+    Android browser USB Serial support may vary.
+  </div>
+
 </div>
 
-<!-- ================= RTU ================= -->
-
-<div id="rtuPage">
 
 <div class="card">
 <h3>Serial Connection</h3>
@@ -301,20 +295,26 @@ th {
 </div>
 
 <div class="actions">
-<button class="primary" id="connectBtn" onclick="connectSerial()">
-Connect USB-RS485
+
+<button
+  class="primary"
+  id="connectBtn"
+  onclick="connectSerial()">
+  Connect USB-RS485
 </button>
 
-<button class="secondary" onclick="disconnectSerial()">
-Disconnect
+<button
+  class="secondary"
+  onclick="disconnectSerial()">
+  Disconnect
 </button>
+
 </div>
 
-<div id="serialStatus" class="status">Disconnected</div>
+<div id="serialStatus" class="status">
+Disconnected
+</div>
 
-<p class="small">
-Uses Web Serial API. Recommended: Chrome / Edge desktop.
-</p>
 </div>
 
 
@@ -326,22 +326,40 @@ Uses Web Serial API. Recommended: Chrome / Edge desktop.
 
 <div>
 <label>Slave ID</label>
-<input id="slaveId" type="number" min="1" max="247" value="1">
+<input
+  id="slaveId"
+  type="number"
+  min="1"
+  max="247"
+  value="1">
 </div>
 
 <div>
 <label>Function Code</label>
 <select id="functionCode">
-<option value="1">FC01 - Read Coils</option>
-<option value="2">FC02 - Read Discrete Inputs</option>
-<option value="3" selected>FC03 - Read Holding Registers</option>
-<option value="4">FC04 - Read Input Registers</option>
+<option value="1">
+FC01 - Read Coils
+</option>
+<option value="2">
+FC02 - Read Discrete Inputs
+</option>
+<option value="3" selected>
+FC03 - Read Holding Registers
+</option>
+<option value="4">
+FC04 - Read Input Registers
+</option>
 </select>
 </div>
 
 <div>
 <label>Quantity</label>
-<input id="quantity" type="number" min="1" max="125" value="10">
+<input
+  id="quantity"
+  type="number"
+  min="1"
+  max="125"
+  value="10">
 </div>
 
 </div>
@@ -350,33 +368,52 @@ Uses Web Serial API. Recommended: Chrome / Edge desktop.
 
 <div>
 <label>Start Address</label>
-<input id="startAddress" type="number" min="0" max="65535" value="0">
+<input
+  id="startAddress"
+  type="number"
+  min="0"
+  max="65535"
+  value="0">
 </div>
 
 <div>
 <label>Address Mode</label>
 <select id="addressMode">
-<option value="zero">0-based / Protocol Address</option>
-<option value="one">1-based / Manual Address</option>
+<option value="zero">
+0-based / Protocol Address
+</option>
+
+<option value="one">
+1-based / Manual Address
+</option>
 </select>
 </div>
 
 </div>
 
 <div class="actions">
-<button class="primary" onclick="readModbus()">
-READ
+
+<button
+  class="primary"
+  onclick="readModbus()">
+  READ
 </button>
 
-<button class="secondary" onclick="savePreset()">
-Save Preset
+<button
+  class="secondary"
+  onclick="savePreset()">
+  Save Preset
 </button>
+
 </div>
 
-<div id="readStatus" class="status">Ready</div>
+<div id="readStatus" class="status">
+Ready
+</div>
 
 <p class="small">
-Read-only tool. No write functions are included.
+Read-only tool. Supports FC01, FC02, FC03 and FC04.
+No Modbus write functions are included.
 </p>
 
 </div>
@@ -391,7 +428,9 @@ No data received.
 </div>
 
 <div style="overflow-x:auto;">
+
 <table id="resultTable" class="hidden">
+
 <thead>
 <tr>
 <th>#</th>
@@ -404,7 +443,9 @@ No data received.
 </thead>
 
 <tbody id="resultBody"></tbody>
+
 </table>
+
 </div>
 
 <div id="rawArea" class="hidden">
@@ -425,30 +466,40 @@ No data received.
 <h3>32-bit Decoder</h3>
 
 <p class="small">
-เลือก register คู่ติดกันเพื่อแปลงค่า 32-bit
+Select two consecutive registers for 32-bit decoding.
 </p>
 
 <div class="grid2">
 
 <div>
 <label>First Register Index</label>
-<input id="decodeIndex" type="number" value="0" min="0">
+<input
+  id="decodeIndex"
+  type="number"
+  value="0"
+  min="0">
 </div>
 
 <div>
 <label>Word Order</label>
 <select id="wordOrder">
-<option value="AB">High Word → Low Word</option>
-<option value="BA">Low Word → High Word</option>
+<option value="AB">
+High Word → Low Word
+</option>
+
+<option value="BA">
+Low Word → High Word
+</option>
 </select>
 </div>
 
 </div>
 
-<button class="secondary"
-style="margin-top:12px;"
-onclick="decode32()">
-Decode
+<button
+  class="secondary"
+  style="margin-top:12px;"
+  onclick="decode32()">
+  Decode
 </button>
 
 <div id="decodeResult" class="decode-result">
@@ -457,79 +508,9 @@ Waiting for register data...
 
 </div>
 
-</div>
 
-
-<!-- ================= TCP ================= -->
-
-<div id="tcpPage" class="hidden">
-
-<div class="card">
-
-<h3>
-Modbus TCP
-<span class="badge experimental">EXPERIMENTAL</span>
-</h3>
-
-<div class="warning">
-Browser ไม่สามารถเปิด TCP socket ไปยัง PLC/Remote I/O ที่ Port 502 โดยตรงได้
-ดังนั้นโหมดนี้จะต้องใช้ Local Bridge บน PC หรือ Raspberry Pi
-ก่อนจึงจะอ่าน Modbus TCP ได้
-</div>
-
-<div class="grid2">
-
-<div>
-<label>Device IP</label>
-<input value="192.168.1.100">
-</div>
-
-<div>
-<label>TCP Port</label>
-<input type="number" value="502">
-</div>
-
-</div>
-
-<div class="grid3">
-
-<div>
-<label>Unit ID</label>
-<input type="number" value="1">
-</div>
-
-<div>
-<label>Function Code</label>
-<select>
-<option>FC01</option>
-<option>FC02</option>
-<option selected>FC03</option>
-<option>FC04</option>
-</select>
-</div>
-
-<div>
-<label>Quantity</label>
-<input type="number" value="10">
-</div>
-
-</div>
-
-<label>Start Address</label>
-<input type="number" value="0">
-
-<button class="secondary"
-style="margin-top:15px;"
-onclick="alert('TCP Local Bridge ยังไม่ได้ติดตั้ง')">
-Read via Local Bridge
-</button>
-
-<p class="small">
-เราจะทำ Local Bridge แยกภายหลัง ถ้าทดลองแล้วคล่องตัวพอสำหรับใช้งานจริง
-</p>
-
-</div>
-
+<div class="footer">
+Paul IoT Lab · Modbus RTU Tool
 </div>
 
 </div>
@@ -542,62 +523,72 @@ let reader = null;
 let writer = null;
 let lastRegisters = [];
 
-/* ================= UI ================= */
-
-function showTab(tab) {
-
-  document.getElementById("rtuPage")
-    .classList.toggle("hidden", tab !== "rtu");
-
-  document.getElementById("tcpPage")
-    .classList.toggle("hidden", tab !== "tcp");
-
-  document.getElementById("rtuTab")
-    .classList.toggle("active", tab === "rtu");
-
-  document.getElementById("tcpTab")
-    .classList.toggle("active", tab === "tcp");
-}
-
 
 /* ================= SERIAL ================= */
 
 async function connectSerial() {
 
   if (!("serial" in navigator)) {
-    alert("Browser นี้ไม่รองรับ Web Serial\nกรุณาใช้ Chrome หรือ Edge บน PC");
+
+    alert(
+      "This browser does not support Web Serial.\n" +
+      "Please use Chrome or Edge desktop."
+    );
+
     return;
   }
 
   try {
 
-    port = await navigator.serial.requestPort();
+    port =
+      await navigator.serial.requestPort();
 
     await port.open({
-      baudRate: Number(value("baud")),
+
+      baudRate:
+        Number(value("baud")),
+
       dataBits: 8,
-      stopBits: Number(value("stopBits")),
-      parity: value("parity"),
+
+      stopBits:
+        Number(value("stopBits")),
+
+      parity:
+        value("parity"),
+
       flowControl: "none"
+
     });
 
-    writer = port.writable.getWriter();
+    writer =
+      port.writable.getWriter();
 
-    setStatus("serialStatus", "Connected", true);
+    setStatus(
+      "serialStatus",
+      "Connected",
+      true
+    );
 
-    document.getElementById("connectBtn").textContent =
+    document.getElementById(
+      "connectBtn"
+    ).textContent =
       "Connected";
 
-  } catch(err) {
+  }
+
+  catch(err) {
 
     console.error(err);
 
     setStatus(
       "serialStatus",
-      "Connection failed: " + err.message,
+      "Connection failed: " +
+      err.message,
       false
     );
+
   }
+
 }
 
 
@@ -606,29 +597,50 @@ async function disconnectSerial() {
   try {
 
     if (reader) {
+
       await reader.cancel();
+
       reader.releaseLock();
+
       reader = null;
+
     }
 
     if (writer) {
+
       writer.releaseLock();
+
       writer = null;
+
     }
 
     if (port) {
+
       await port.close();
+
       port = null;
+
     }
 
-  } catch(err) {
-    console.error(err);
   }
 
-  setStatus("serialStatus", "Disconnected", false);
+  catch(err) {
 
-  document.getElementById("connectBtn").textContent =
+    console.error(err);
+
+  }
+
+  setStatus(
+    "serialStatus",
+    "Disconnected",
+    false
+  );
+
+  document.getElementById(
+    "connectBtn"
+  ).textContent =
     "Connect USB-RS485";
+
 }
 
 
@@ -637,45 +649,113 @@ async function disconnectSerial() {
 async function readModbus() {
 
   if (!port || !writer) {
-    alert("Please connect USB-RS485 first.");
+
+    alert(
+      "Please connect USB-RS485 first."
+    );
+
     return;
   }
 
   try {
 
-    let slave = Number(value("slaveId"));
-    let fc = Number(value("functionCode"));
-    let addr = Number(value("startAddress"));
-    let qty = Number(value("quantity"));
+    let slave =
+      Number(value("slaveId"));
 
-    if (value("addressMode") === "one") {
+    let fc =
+      Number(value("functionCode"));
+
+    let addr =
+      Number(value("startAddress"));
+
+    let qty =
+      Number(value("quantity"));
+
+
+    if (
+      value("addressMode") === "one"
+    ) {
+
       addr -= 1;
+
     }
+
 
     if (addr < 0) {
-      throw new Error("Invalid address");
+
+      throw new Error(
+        "Invalid address"
+      );
+
     }
 
-    if (slave < 1 || slave > 247) {
-      throw new Error("Slave ID must be 1-247");
+
+    if (
+      slave < 1 ||
+      slave > 247
+    ) {
+
+      throw new Error(
+        "Slave ID must be 1-247"
+      );
+
     }
+
 
     if (qty < 1) {
-      throw new Error("Quantity must be >= 1");
+
+      throw new Error(
+        "Quantity must be >= 1"
+      );
+
     }
 
-    const frame = buildReadFrame(
-      slave,
-      fc,
-      addr,
-      qty
-    );
 
-    document.getElementById("txRaw").textContent =
+    if (
+      (fc === 1 || fc === 2) &&
+      qty > 2000
+    ) {
+
+      throw new Error(
+        "FC01/FC02 quantity must be <= 2000"
+      );
+
+    }
+
+
+    if (
+      (fc === 3 || fc === 4) &&
+      qty > 125
+    ) {
+
+      throw new Error(
+        "FC03/FC04 quantity must be <= 125"
+      );
+
+    }
+
+
+    const frame =
+      buildReadFrame(
+        slave,
+        fc,
+        addr,
+        qty
+      );
+
+
+    document.getElementById(
+      "txRaw"
+    ).textContent =
       hexString(frame);
 
-    document.getElementById("rawArea")
-      .classList.remove("hidden");
+
+    document.getElementById(
+      "rawArea"
+    ).classList.remove(
+      "hidden"
+    );
+
 
     setStatus(
       "readStatus",
@@ -683,13 +763,19 @@ async function readModbus() {
       true
     );
 
+
     await writer.write(frame);
+
 
     const response =
       await readResponse(1500);
 
-    document.getElementById("rxRaw").textContent =
+
+    document.getElementById(
+      "rxRaw"
+    ).textContent =
       hexString(response);
+
 
     parseResponse(
       response,
@@ -699,57 +785,95 @@ async function readModbus() {
       qty
     );
 
+
     setStatus(
       "readStatus",
       "Read OK",
       true
     );
 
-  } catch(err) {
+  }
+
+  catch(err) {
 
     console.error(err);
 
     setStatus(
       "readStatus",
-      "Error: " + err.message,
+      "Error: " +
+      err.message,
       false
     );
+
   }
+
 }
 
 
-function buildReadFrame(slave, fc, addr, qty) {
+function buildReadFrame(
+  slave,
+  fc,
+  addr,
+  qty
+) {
 
-  let frame = new Uint8Array(8);
+  let frame =
+    new Uint8Array(8);
+
 
   frame[0] = slave;
+
   frame[1] = fc;
 
-  frame[2] = (addr >> 8) & 0xFF;
-  frame[3] = addr & 0xFF;
 
-  frame[4] = (qty >> 8) & 0xFF;
-  frame[5] = qty & 0xFF;
+  frame[2] =
+    (addr >> 8) & 0xFF;
+
+  frame[3] =
+    addr & 0xFF;
+
+
+  frame[4] =
+    (qty >> 8) & 0xFF;
+
+  frame[5] =
+    qty & 0xFF;
+
 
   const crc =
-    modbusCRC(frame.slice(0,6));
+    modbusCRC(
+      frame.slice(0, 6)
+    );
 
-  frame[6] = crc & 0xFF;
-  frame[7] = (crc >> 8) & 0xFF;
+
+  frame[6] =
+    crc & 0xFF;
+
+  frame[7] =
+    (crc >> 8) & 0xFF;
+
 
   return frame;
+
 }
 
 
-async function readResponse(timeoutMs) {
+async function readResponse(
+  timeoutMs
+) {
 
   reader =
     port.readable.getReader();
 
-  let data = [];
-  let lastData = Date.now();
 
-  const start = Date.now();
+  let data = [];
+
+  let lastData =
+    Date.now();
+
+  const start =
+    Date.now();
+
 
   try {
 
@@ -763,49 +887,85 @@ async function readResponse(timeoutMs) {
 
           reader.read(),
 
-          new Promise(resolve =>
-            setTimeout(
-              () => resolve({ timeout:true }),
-              100
-            )
+          new Promise(
+            resolve =>
+
+              setTimeout(
+                () =>
+                  resolve({
+                    timeout: true
+                  }),
+
+                100
+              )
           )
 
         ]);
+
 
       if (result.timeout) {
 
         if (
           data.length > 0 &&
-          Date.now() - lastData > 80
+          Date.now() -
+          lastData > 80
         ) {
+
           break;
+
         }
 
         continue;
+
       }
 
-      if (result.done) break;
+
+      if (result.done) {
+
+        break;
+
+      }
+
 
       if (result.value) {
 
-        data.push(...result.value);
-        lastData = Date.now();
+        data.push(
+          ...result.value
+        );
+
+        lastData =
+          Date.now();
 
       }
+
     }
 
-  } finally {
+  }
+
+  finally {
 
     reader.releaseLock();
+
     reader = null;
 
   }
 
-  if (data.length === 0) {
-    throw new Error("Timeout / No response");
+
+  if (
+    data.length === 0
+  ) {
+
+    throw new Error(
+      "Timeout / No response"
+    );
+
   }
 
-  return new Uint8Array(data);
+
+  return new Uint8Array(
+    data
+  );
+
 }
 
 
@@ -819,28 +979,63 @@ function parseResponse(
   qty
 ) {
 
-  if (data.length < 5) {
-    throw new Error("Response too short");
+  if (
+    data.length < 5
+  ) {
+
+    throw new Error(
+      "Response too short"
+    );
+
   }
 
-  if (data[0] !== expectedSlave) {
-    throw new Error("Wrong Slave ID");
+
+  if (
+    data[0] !==
+    expectedSlave
+  ) {
+
+    throw new Error(
+      "Wrong Slave ID"
+    );
+
   }
 
-  if (data[1] & 0x80) {
+
+  if (
+    data[1] & 0x80
+  ) {
+
     throw new Error(
       "Modbus exception code " +
       data[2]
     );
+
   }
 
-  if (data[1] !== expectedFC) {
-    throw new Error("Wrong Function Code");
+
+  if (
+    data[1] !==
+    expectedFC
+  ) {
+
+    throw new Error(
+      "Wrong Function Code"
+    );
+
   }
 
-  if (!checkCRC(data)) {
-    throw new Error("CRC error");
+
+  if (
+    !checkCRC(data)
+  ) {
+
+    throw new Error(
+      "CRC error"
+    );
+
   }
+
 
   if (
     expectedFC === 3 ||
@@ -852,22 +1047,32 @@ function parseResponse(
       startAddr
     );
 
-  } else {
+  }
+
+  else {
 
     parseBits(
       data,
       startAddr,
       qty
     );
+
   }
+
 }
 
 
-function parseRegisters(data, startAddr) {
+function parseRegisters(
+  data,
+  startAddr
+) {
 
-  const byteCount = data[2];
+  const byteCount =
+    data[2];
+
 
   let regs = [];
+
 
   for (
     let i = 0;
@@ -875,50 +1080,98 @@ function parseRegisters(data, startAddr) {
     i += 2
   ) {
 
-    const value =
-      (data[3+i] << 8) |
-      data[4+i];
+    const reg =
+      (data[3 + i] << 8) |
+      data[4 + i];
 
-    regs.push(value);
+
+    regs.push(reg);
+
   }
 
-  lastRegisters = regs;
+
+  lastRegisters =
+    regs;
+
 
   const tbody =
-    document.getElementById("resultBody");
+    document.getElementById(
+      "resultBody"
+    );
+
 
   tbody.innerHTML = "";
 
-  regs.forEach((reg,index) => {
 
-    const signed =
-      reg > 32767
-        ? reg - 65536
-        : reg;
+  regs.forEach(
+    (reg, index) => {
 
-    const row =
-      document.createElement("tr");
+      const signed =
+        reg > 32767
+          ? reg - 65536
+          : reg;
 
-    row.innerHTML = `
-      <td>${index}</td>
-      <td>${startAddr + index}</td>
-      <td>${reg}</td>
-      <td class="code">
-        0x${reg.toString(16)
-        .toUpperCase()
-        .padStart(4,"0")}
-      </td>
-      <td class="code">
-        ${reg.toString(2)
-        .padStart(16,"0")}
-      </td>
-      <td>${signed}</td>
-    `;
 
-    tbody.appendChild(row);
-  });
+      const row =
+        document.createElement(
+          "tr"
+        );
+
+
+      row.innerHTML = `
+
+        <td>
+          ${index}
+        </td>
+
+        <td>
+          ${startAddr + index}
+        </td>
+
+        <td>
+          ${reg}
+        </td>
+
+        <td class="code">
+          0x${
+            reg
+              .toString(16)
+              .toUpperCase()
+              .padStart(
+                4,
+                "0"
+              )
+          }
+        </td>
+
+        <td class="code">
+          ${
+            reg
+              .toString(2)
+              .padStart(
+                16,
+                "0"
+              )
+          }
+        </td>
+
+        <td>
+          ${signed}
+        </td>
+
+      `;
+
+
+      tbody.appendChild(
+        row
+      );
+
+    }
+  );
+
 
   showResults();
+
 }
 
 
@@ -930,7 +1183,10 @@ function parseBits(
 
   let bits = [];
 
-  const byteCount = data[2];
+
+  const byteCount =
+    data[2];
+
 
   for (
     let i = 0;
@@ -944,50 +1200,103 @@ function parseBits(
       bit++
     ) {
 
-      if (bits.length >= qty)
+      if (
+        bits.length >= qty
+      ) {
+
         break;
 
+      }
+
+
       bits.push(
-        (data[3+i] >> bit) & 1
+        (data[3 + i] >> bit)
+        & 1
       );
+
     }
+
   }
+
 
   lastRegisters = [];
 
+
   const tbody =
-    document.getElementById("resultBody");
+    document.getElementById(
+      "resultBody"
+    );
+
 
   tbody.innerHTML = "";
 
-  bits.forEach((bit,index) => {
 
-    const row =
-      document.createElement("tr");
+  bits.forEach(
+    (bit, index) => {
 
-    row.innerHTML = `
-      <td>${index}</td>
-      <td>${startAddr + index}</td>
-      <td>${bit}</td>
-      <td>-</td>
-      <td>${bit}</td>
-      <td>-</td>
-    `;
+      const row =
+        document.createElement(
+          "tr"
+        );
 
-    tbody.appendChild(row);
-  });
+
+      row.innerHTML = `
+
+        <td>
+          ${index}
+        </td>
+
+        <td>
+          ${startAddr + index}
+        </td>
+
+        <td>
+          ${bit}
+        </td>
+
+        <td>
+          -
+        </td>
+
+        <td>
+          ${bit}
+        </td>
+
+        <td>
+          -
+        </td>
+
+      `;
+
+
+      tbody.appendChild(
+        row
+      );
+
+    }
+  );
+
 
   showResults();
+
 }
 
 
 function showResults() {
 
-  document.getElementById("resultEmpty")
-    .classList.add("hidden");
+  document.getElementById(
+    "resultEmpty"
+  ).classList.add(
+    "hidden"
+  );
 
-  document.getElementById("resultTable")
-    .classList.remove("hidden");
+
+  document.getElementById(
+    "resultTable"
+  ).classList.remove(
+    "hidden"
+  );
+
 }
 
 
@@ -996,7 +1305,12 @@ function showResults() {
 function decode32() {
 
   const index =
-    Number(value("decodeIndex"));
+    Number(
+      value(
+        "decodeIndex"
+      )
+    );
+
 
   if (
     index < 0 ||
@@ -1010,43 +1324,63 @@ function decode32() {
       "Need two valid registers.";
 
     return;
+
   }
+
 
   let r1 =
     lastRegisters[index];
 
   let r2 =
-    lastRegisters[index+1];
+    lastRegisters[
+      index + 1
+    ];
 
-  let high, low;
+
+  let high;
+  let low;
+
 
   if (
-    value("wordOrder") === "AB"
+    value("wordOrder") ===
+    "AB"
   ) {
 
     high = r1;
     low = r2;
 
-  } else {
+  }
+
+  else {
 
     high = r2;
     low = r1;
 
   }
 
+
   const uint32 =
-    high * 65536 + low;
+    high * 65536 +
+    low;
+
 
   const int32 =
-    uint32 > 0x7FFFFFFF
-      ? uint32 - 0x100000000
+    uint32 >
+    0x7FFFFFFF
+
+      ? uint32 -
+        0x100000000
+
       : uint32;
+
 
   const buffer =
     new ArrayBuffer(4);
 
+
   const view =
     new DataView(buffer);
+
 
   view.setUint16(
     0,
@@ -1054,11 +1388,13 @@ function decode32() {
     false
   );
 
+
   view.setUint16(
     2,
     low,
     false
   );
+
 
   const float32 =
     view.getFloat32(
@@ -1066,23 +1402,29 @@ function decode32() {
       false
     );
 
+
   document.getElementById(
     "decodeResult"
-  ).innerHTML =
+  ).textContent =
 
-`Register ${index} + ${index+1}
+`Register ${index} + ${index + 1}
 
 UINT32 : ${uint32}
 INT32  : ${int32}
 FLOAT32: ${float32}
 
-HEX    : 0x${high
-.toString(16)
-.toUpperCase()
-.padStart(4,"0")}${low
-.toString(16)
-.toUpperCase()
-.padStart(4,"0")}`;
+HEX    : 0x${
+  high
+    .toString(16)
+    .toUpperCase()
+    .padStart(4, "0")
+}${
+  low
+    .toString(16)
+    .toUpperCase()
+    .padStart(4, "0")
+}`;
+
 }
 
 
@@ -1090,7 +1432,9 @@ HEX    : 0x${high
 
 function modbusCRC(bytes) {
 
-  let crc = 0xFFFF;
+  let crc =
+    0xFFFF;
+
 
   for (
     let pos = 0;
@@ -1098,7 +1442,9 @@ function modbusCRC(bytes) {
     pos++
   ) {
 
-    crc ^= bytes[pos];
+    crc ^=
+      bytes[pos];
+
 
     for (
       let i = 0;
@@ -1106,26 +1452,43 @@ function modbusCRC(bytes) {
       i++
     ) {
 
-      if (crc & 0x0001) {
+      if (
+        crc & 0x0001
+      ) {
 
         crc >>= 1;
-        crc ^= 0xA001;
 
-      } else {
+        crc ^=
+          0xA001;
 
-        crc >>= 1;
       }
+
+      else {
+
+        crc >>= 1;
+
+      }
+
     }
+
   }
 
+
   return crc;
+
 }
 
 
 function checkCRC(data) {
 
-  if (data.length < 3)
+  if (
+    data.length < 3
+  ) {
+
     return false;
+
+  }
+
 
   const body =
     data.slice(
@@ -1133,14 +1496,24 @@ function checkCRC(data) {
       data.length - 2
     );
 
+
   const calc =
     modbusCRC(body);
 
-  const received =
-    data[data.length-2] |
-    (data[data.length-1] << 8);
 
-  return calc === received;
+  const received =
+    data[data.length - 2]
+    |
+    (
+      data[data.length - 1]
+      << 8
+    );
+
+
+  return (
+    calc === received
+  );
+
 }
 
 
@@ -1149,26 +1522,46 @@ function checkCRC(data) {
 function savePreset() {
 
   const preset = {
-    baud: value("baud"),
-    parity: value("parity"),
-    stopBits: value("stopBits"),
-    slaveId: value("slaveId"),
+
+    baud:
+      value("baud"),
+
+    parity:
+      value("parity"),
+
+    stopBits:
+      value("stopBits"),
+
+    slaveId:
+      value("slaveId"),
+
     functionCode:
       value("functionCode"),
+
     startAddress:
       value("startAddress"),
+
     quantity:
       value("quantity"),
+
     addressMode:
       value("addressMode")
+
   };
+
 
   localStorage.setItem(
     "paul_modbus_preset",
-    JSON.stringify(preset)
+    JSON.stringify(
+      preset
+    )
   );
 
-  alert("Preset saved");
+
+  alert(
+    "Preset saved"
+  );
+
 }
 
 
@@ -1179,32 +1572,55 @@ function loadPreset() {
       "paul_modbus_preset"
     );
 
-  if (!raw) return;
+
+  if (!raw) {
+
+    return;
+
+  }
+
 
   try {
 
     const p =
       JSON.parse(raw);
 
-    Object.keys(p).forEach(id => {
 
-      if (
-        document.getElementById(id)
-      ) {
-        document.getElementById(id)
-          .value = p[id];
-      }
+    Object.keys(p)
+      .forEach(
+        id => {
 
-    });
+          if (
+            document.getElementById(
+              id
+            )
+          ) {
 
-  } catch {}
+            document.getElementById(
+              id
+            ).value =
+              p[id];
+
+          }
+
+        }
+      );
+
+  }
+
+  catch {}
+
 }
 
 
 /* ================= HELPERS ================= */
 
 function value(id) {
-  return document.getElementById(id).value;
+
+  return document.getElementById(
+    id
+  ).value;
+
 }
 
 
@@ -1215,26 +1631,42 @@ function setStatus(
 ) {
 
   const el =
-    document.getElementById(id);
+    document.getElementById(
+      id
+    );
 
-  el.textContent = text;
+
+  el.textContent =
+    text;
+
 
   el.className =
     "status " +
-    (ok ? "ok" : "err");
+    (
+      ok
+        ? "ok"
+        : "err"
+    );
+
 }
 
 
 function hexString(bytes) {
 
-  return Array.from(bytes)
+  return Array
+    .from(bytes)
     .map(
       b =>
-        b.toString(16)
-        .toUpperCase()
-        .padStart(2,"0")
+        b
+          .toString(16)
+          .toUpperCase()
+          .padStart(
+            2,
+            "0"
+          )
     )
     .join(" ");
+
 }
 
 
